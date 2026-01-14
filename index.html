@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening Blogim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-content h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-excerpt {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .add-post-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .add-post-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #ddd;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Mening Blogim</h1>
+        <p>Texnologiya va hayot haqida</p>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#home">Bosh sahifa</a></li>
+        <li><a href="#about">Biz haqimizda</a></li>
+        <li><a href="#contact">Aloqa</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div class="container">
+        <button class="add-post-btn" id="addPostBtn">+ Yangi Post Qo'shish</button>
+
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog postlar JavaScript orqali qo'shiladi -->
+        </div>
+    </div>
+</main>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h2>Yangi Post Yaratish</h2>
+        <form id="postForm">
+            <div class="form-group">
+                <label for="postTitle">Sarlavha</label>
+                <input type="text" id="postTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="postAuthor">Muallif</label>
+                <input type="text" id="postAuthor" required>
+            </div>
+            <div class="form-group">
+                <label for="postContent">Matn</label>
+                <textarea id="postContent" required></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Bekor qilish</button>
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Mening Blogim. Barcha huquqlar himoyalangan.</p>
+    </div>
+</footer>
+
+<script>
+    let posts = [
+        {
+            id: 1,
+            title: "JavaScript-ga Kirish",
+            author: "Aziz Rahimov",
+            date: "2026-01-10",
+            content: "JavaScript zamonaviy veb-dasturlashning asosi hisoblanadi. Bu til bilan siz interaktiv veb-saytlar yaratishingiz mumkin.",
+            icon: "💻"
+        },
+        {
+            id: 2,
+            title: "CSS Animation Qo'llanmasi",
+            author: "Malika Karimova",
+            date: "2026-01-12",
+            content: "CSS animatsiyalari yordamida veb-sahifalaringizni jonlantiring. Transition va keyframes haqida bilib oling.",
+            icon: "🎨"
+        },
+        {
+            id: 3,
+            title: "React.js Asoslari",
+            author: "Sardor Tursunov",
+            date: "2026-01-14",
+            content: "React - bu Facebook tomonidan ishlab chiqilgan kuchli JavaScript kutubxonasi. Komponentlar va props haqida gaplashamiz.",
+            icon: "⚛️"
+        }
+    ];
+
+    const modal = document.getElementById('modal');
+    const addPostBtn = document.getElementById('addPostBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const postForm = document.getElementById('postForm');
+    const blogGrid = document.getElementById('blogGrid');
+
+    function renderPosts() {
+        blogGrid.innerHTML = '';
+        posts.forEach(post => {
+            const postCard = document.createElement('div');
+            postCard.className = 'blog-card';
+            postCard.innerHTML = `
+                    <div class="blog-image">${post.icon}</div>
+                    <div class="blog-content">
+                        <h2>${post.title}</h2>
+                        <div class="blog-meta">
+                            ${post.author} • ${formatDate(post.date)}
+                        </div>
+                        <p class="blog-excerpt">${post.content.substring(0, 100)}...</p>
+                        <a href="#" class="read-more">Davomini o'qish →</a>
+                    </div>
+                `;
+            blogGrid.appendChild(postCard);
+        });
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const months = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
+            'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+        return `${date.getDate()} ${months[date.getMonth()]}, ${date.getFullYear()}`;
+    }
+
+    addPostBtn.addEventListener('click', () => {
+        modal.classList.add('active');
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        postForm.reset();
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            postForm.reset();
+        }
+    });
+
+    postForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const icons = ['📝', '🚀', '💡', '🔥', '✨', '🎯', '🌟', '💻', '🎨', '⚡'];
+        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+
+        const newPost = {
+            id: posts.length + 1,
+            title: document.getElementById('postTitle').value,
+            author: document.getElementById('postAuthor').value,
+            date: new Date().toISOString().split('T')[0],
+            content: document.getElementById('postContent').value,
+            icon: randomIcon
+        };
+
+        posts.unshift(newPost);
+        renderPosts();
+        modal.classList.remove('active');
+        postForm.reset();
+    });
+
+    renderPosts();
+</script>
+</body>
+</html>
